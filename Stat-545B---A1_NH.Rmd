@@ -1,0 +1,162 @@
+---
+title: "Stat545B-A1"
+author: "Nicole"
+date: "2023-10-29"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Stat 545B - Assignment 1
+
+#Excercise 1
+```{r}
+#loading libraries 
+library(tidyverse)
+library(ggplot2)
+library(datateachr)
+library(testthat)
+
+```
+
+
+```{r}
+#Exercise 1: Make a Function
+
+#The function I choose to make is a plot which I used a lot in the Stat545 mda. This function creates a standard scatterplot. 
+
+easyplot <- function(x, y) {
+    xnum <- x[!is.na(x)]
+    if(!is.numeric(xnum)) {
+    stop('please input a numeric variable')
+  }
+  ggplot(mapping = aes(x, y)) + 
+  geom_point(size = 0.8, alpha = 0.5, color = "blue") 
+}
+
+#xnum = na would deem it numeric, made a vector with no nas 
+
+easyplot(x = vancouver_trees$diameter, y = vancouver_trees$height_range_id)
+
+
+```
+
+
+```{r}
+easyplot <- function(data, x, y) {
+  
+  xvar <- data %>% select(x)
+  yvar <- data %>% select(y)
+
+  stopifnot(is.numeric(xvar))
+  
+  ggplot(data, aes(xvar, yvar)) + 
+  geom_point(size = 0.8, alpha = 0.5, color = "blue") 
+}
+
+easyplot(vancouver_trees, diameter, height_range_id)
+```
+
+
+
+```{r}
+#Exercise 2: Document your Function
+
+
+easyplot <- function(x, y) {
+    xnum <- x[!is.na(x)]
+    if(!is.numeric(xnum)) {
+    stop('please input a numeric variable')
+  }
+  ggplot(mapping = aes(x, y)) + 
+  geom_point(size = 0.8, alpha = 0.5, color = "blue") 
+}
+
+#' easyplot
+#' @description This function creates a standard scatter plot with 0.8 size blue points using ggplot. This function makes it easy to create a plot to look at the relationship between two numerical variables in a dataset.
+#' @param x A numerical variable in a dataset.
+#I named this variable x to describe the independent variable being investigated
+#' @param y A numerical variable in a dataset.
+#I named this variable y to describe the dependent variable being investigated 
+#'
+#' @return A blue scatter plot using two numerical variables on the x and y axis  
+
+
+```
+
+```{r}
+#Exercise 3: Include examples 
+
+easyplot(vancouver_trees$diameter, vancouver_trees$height_range_id)
+#I want to look at the relationship between diameter and height of trees using the vancouver trees dataset, I am using the easyplot function to quickly see if there is a pattern between these variables. I can see that the shorter/mid height trees tend to be the tallest. 
+```
+
+```{r}
+easyplot(cancer_sample$radius_mean, cancer_sample$area_mean)
+#I want to look at the relationship between tumor mean radius and tumor mean area using the cancer sample dataset, I am using the easyplot function to quickly see if there is a pattern between these variables. The results show a positive correlation.  
+```
+
+```{r}
+easyplot(palmerpenguins::penguins$bill_length_mm,palmerpenguins::penguins$bill_depth_mm)
+#I want to look at the relationship between penguin bill length and penguin bill depth using the palmer penguins dataset, I am using the easyplot function to quickly see if there is a pattern between these variables. There doesn't seem to be a clear pattern between these variables. 
+
+```
+
+```{r}
+#Exercise 4: Test the Function
+
+test_that("Function creates a ggplot",{
+  ep <- easyplot(cancer_sample$radius_mean, cancer_sample$area_mean)
+  expect_is(ep,"ggplot")
+})
+
+```
+
+
+```{r}
+test_that("Function uses the correct given dataset", {
+  ep <- easyplot(cancer_sample$radius_mean, cancer_sample$area_mean)
+  expect_that(easyplot(cancer_sample$radius_mean, cancer_sample$area_mean), equals(ep))
+}) 
+```
+
+
+```{r}
+test_that("Function needs a dataset and varibles, not just a string of numbers", {
+  expect_error(easyplot(2,3,4))
+})
+```
+
+```{r}
+test_that("Function can only use numerical dataset", {
+  expect_error(easyplot(vancouver_trees$species_name, vancouver_trees$std_street))
+})
+
+```
+
+
+
+
+
+```{r}
+test_that("x-axid is labelled 'diameter'",{
+  ep <- easyplot(vancouver_trees)
+  expect_identical(ep$vancouver_trees$diameter, "diameter")
+})
+```
+
+
+```{r}
+
+library(proto)
+test_that("Plot layers match expectations",{
+ep <- easyplot(vancouver_trees)
+  expect_is(ep$layers[[1]], "proto")
+  expect_identical(ep$layers[[1]]$geom$objname, "point")
+  expect_identical(ep$layers[[1]]$colour$objname, "blue")
+})
+
+```
+
