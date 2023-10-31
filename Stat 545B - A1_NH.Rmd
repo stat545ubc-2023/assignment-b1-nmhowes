@@ -1,8 +1,8 @@
 ---
-title: "Stat545B-A1"
+title: "Stat545B_A1"
 author: "Nicole"
 date: "2023-10-29"
-output: html_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
@@ -21,133 +21,102 @@ library(testthat)
 
 ```
 
-```{r}
-install.packages("proto")
-```
-
-
-```{r}
-#The function I choose to make incorpurts 
-mean_median_mode_range <- function(vector){
-    mean <- mean(vector)
-    median <- median(vector)
-    range <- range(vector)
-    return(c(mean, median,range))
-}
-
-
-print(mean_median_mode_range(c(1, 1, 1, 2, 3)))
-
-```
-
-```{r}
-calculate_BMI_women <- function(weight, height){
-    (703 * weight/(height^2))
-}
-
-calculate_BMI_women(130, 5.9)
-```
-
 
 ```{r}
 #Exercise 1: Make a Function
 
 #The function I choose to make is a plot which I used a lot in the Stat545 mda. This function creates a standard scatterplot. 
 
-easyplot <- function(data, x, y, na.rm = TRUE){
-  ggplot(data, aes({{x}}, {{y}})) + 
+easyplot <- function(x, y) {
+    xnum <- x[!is.na(x)]
+    if(!is.numeric(xnum)) {
+    stop('please input a numeric variable')
+  }
+  ggplot(mapping = aes(x, y)) + 
   geom_point(size = 0.8, alpha = 0.5, color = "blue") 
 }
 
+#xnum = na would deem it numeric, made a vector with no nas 
 
-easyplot(vancouver_trees, diameter, height_range_id)
+easyplot(x = vancouver_trees$diameter, y = vancouver_trees$height_range_id)
 
-
-
-#Your function should be reasonably flexible on its inputs. Here is an example of a function that is not reasonably flexible: a function called count_missing_values_by_group() that only works when the data frame has columns that are all of type fct??
-
-#Your function includes appropriate arguments. (Do you handle NA’s appropriately? Are you using the ellipsis properly? etc.)??
 
 ```
+
 
 ```{r}
 #Exercise 2: Document your Function
 
 
-#' @title easyplot()
-#' @description This function creates a standard scatter plot with blue points using ggplot. This function makes it easy to create a plot to look at the relationship between two variables. 
-#' @details 
+easyplot <- function(x, y) {
+    xnum <- x[!is.na(x)]
+    if(!is.numeric(xnum)) {
+    stop('please input a numeric variable')
+  }
+  ggplot(mapping = aes(x, y)) + 
+  geom_point(size = 0.8, alpha = 0.5, color = "blue") 
+}
+
+#' easyplot
+#' @description This function creates a standard scatter plot with 0.8 size blue points using ggplot. This function makes it easy to create a plot to look at the relationship between two numerical variables in a dataset.
+#' @param x A numerical variable in a dataset.
+#I named this variable x to describe the independent variable being investigated
+#' @param y A numerical variable in a dataset.
+#I named this variable y to describe the dependent variable being investigated 
+#'
+#' @return A blue scatter plot using two numerical variables on the x and y axis  
 
 
-#Creating a scatter plot 
-#' @paraam data A dataset.
-#I named this variable data as it describes that a data set should be inputted 
-#data is green?
-#' @param x A variable dataset.
-#I named this variable x to describe one of the variables being investigated 
-#' @param y A variable dataset.
-#I named this variable y to describe one of the variables being investigated 
-#' @returns A scatter plot using x versus y. 
-
-
-
-#Function description: In 1-2 brief sentences, describe what the function does.
-#Document each argument with the @param tag, making sure to justify why you named the parameter as you did.??
-#(Justification for naming is not often needed, but we want to hear your reasoning.)
-#What the function returns, using the @return tag.
 ```
 
 ```{r}
 #Exercise 3: Include examples 
 
-easyplot(vancouver_trees, diameter, height_range_id)
+easyplot(vancouver_trees$diameter, vancouver_trees$height_range_id)
+#I want to look at the relationship between diameter and height of trees using the vancouver trees dataset, I am using the easyplot function to quickly see if there is a pattern between these variables. I can see that the shorter/mid height trees tend to be the tallest. 
 ```
 
 ```{r}
-easyplot(cancer_sample, radius_mean, area_mean)
+easyplot(cancer_sample$radius_mean, cancer_sample$area_mean)
+#I want to look at the relationship between tumor mean radius and tumor mean area using the cancer sample dataset, I am using the easyplot function to quickly see if there is a pattern between these variables. The results show a positive correlation.  
 ```
 
 ```{r}
-easyplot(flow_sample, year, flow)
+easyplot(palmerpenguins::penguins$bill_length_mm,palmerpenguins::penguins$bill_depth_mm)
+#I want to look at the relationship between penguin bill length and penguin bill depth using the palmer penguins dataset, I am using the easyplot function to quickly see if there is a pattern between these variables. There doesn't seem to be a clear pattern between these variables. 
+
 ```
 
 ```{r}
 #Exercise 4: Test the Function
 
 test_that("Function creates a ggplot",{
-  ep <- easyplot(vancouver_trees)
+  ep <- easyplot(cancer_sample$radius_mean, cancer_sample$area_mean)
   expect_is(ep,"ggplot")
 })
-
-#can I use an example dataset?
 
 ```
 
 
 ```{r}
 test_that("Function uses the correct given dataset", {
-  ep <- easyplot(vancouver_trees)
-  expect_that(vancouver_trees, equals(ep$data))
-})
-```
-
-```{r}
-test_that("x-axid is labelled 'diameter'",{
-  ep <- easyplot(vancouver_trees)
-  expect_identical(ep$vancouver_trees$diameter, "diameter")
-})
+  ep <- easyplot(cancer_sample$radius_mean, cancer_sample$area_mean)
+  expect_that(easyplot(cancer_sample$radius_mean, cancer_sample$area_mean), equals(ep))
+}) 
 ```
 
 
 ```{r}
+test_that("Function needs a dataset and varibles, not just a string of numbers", {
+  expect_error(easyplot(2,3,4))
+})
+```
 
-library(proto)
-test_that("Plot layers match expectations",{
-ep <- easyplot(vancouver_trees)
-  expect_is(ep$layers[[1]], "proto")
-  expect_identical(ep$layers[[1]]$geom$objname, "point")
-  expect_identical(ep$layers[[1]]$colour$objname, "blue")
+```{r}
+test_that("Function can only use numerical dataset", {
+  expect_error(easyplot(vancouver_trees$species_name, vancouver_trees$std_street))
 })
 
 ```
+
 
