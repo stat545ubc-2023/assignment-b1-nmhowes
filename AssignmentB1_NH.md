@@ -85,11 +85,7 @@ easyplot <- function(x, y) {
 }
 
 #xnum = na would deem it numeric, made a vector with no nas 
-
-easyplot(x = vancouver_trees$diameter, y = vancouver_trees$height_range_id)
 ```
-
-![](AssignmentB1_NH_files/figure-gfm/unnamed-chunk-2-1.png)<!-- -->
 
 ``` r
 #Exercise 2: Document your Function
@@ -157,7 +153,7 @@ test_that("Function creates a ggplot",{
 })
 ```
 
-    ## Test passed 😸
+    ## Test passed 🎊
 
 ``` r
 test_that("Function uses the correct given dataset", {
@@ -166,7 +162,7 @@ test_that("Function uses the correct given dataset", {
 }) 
 ```
 
-    ## Test passed 🥇
+    ## Test passed 🌈
 
 ``` r
 test_that("Function needs a dataset and varibles, not just a string of numbers", {
@@ -182,4 +178,8 @@ test_that("Function can only use numerical dataset", {
 })
 ```
 
-    ## Test passed 🥇
+    ## Test passed 😀
+
+``` r
+#I inputted a categorical variable 
+```

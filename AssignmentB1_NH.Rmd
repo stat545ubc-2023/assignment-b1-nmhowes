@@ -37,7 +37,7 @@ easyplot <- function(x, y) {
 
 #xnum = na would deem it numeric, made a vector with no nas 
 
-easyplot(x = vancouver_trees$diameter, y = vancouver_trees$height_range_id)
+
 
 
 ```
@@ -116,6 +116,7 @@ test_that("Function can only use numerical dataset", {
   expect_error(easyplot(vancouver_trees$species_name, vancouver_trees$std_street))
 })
 
+#I inputted a categorical variable 
 ```
 
 
