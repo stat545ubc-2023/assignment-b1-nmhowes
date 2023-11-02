@@ -73,7 +73,7 @@ library(testthat)
 ``` r
 #Exercise 1: Make a Function
 
-#The function I choose to make is a plot which I used a lot in the Stat545 mda. This function creates a standard scatterplot. 
+#The function I choose to make is a plot which I used a lot in the Stat545 mda. This function creates a standard scatterplot looking at the relationship between an x and y numeric variable in a dataset. 
 
 easyplot <- function(x, y) {
     xnum <- x[!is.na(x)]
@@ -84,7 +84,7 @@ easyplot <- function(x, y) {
   geom_point(size = 0.8, alpha = 0.5, color = "blue") 
 }
 
-#xnum = na would deem it numeric, made a vector with no nas 
+#used xnum because NA's = non-numeric thus xnum makes a vector with no NA's
 ```
 
 ``` r
@@ -101,7 +101,7 @@ easyplot <- function(x, y) {
 }
 
 #' easyplot
-#' @description This function creates a standard scatter plot with 0.8 size blue points using ggplot. This function makes it easy to create a plot to look at the relationship between two numerical variables in a dataset.
+#' @description This function creates a standard scatter plot with 0.8 size blue points using ggplot. This function makes it easy to create a plot to look at the relationship between two numerical variables in a dataset. To use this function two numerical variables are needed. 
 #' @param x A numerical variable in a dataset.
 #I named this variable x to describe the independent variable being investigated
 #' @param y A numerical variable in a dataset.
@@ -153,7 +153,7 @@ test_that("Function creates a ggplot",{
 })
 ```
 
-    ## Test passed 🎊
+    ## Test passed 😀
 
 ``` r
 test_that("Function uses the correct given dataset", {
@@ -162,7 +162,7 @@ test_that("Function uses the correct given dataset", {
 }) 
 ```
 
-    ## Test passed 🌈
+    ## Test passed 🥳
 
 ``` r
 test_that("Function needs a dataset and varibles, not just a string of numbers", {
@@ -170,7 +170,7 @@ test_that("Function needs a dataset and varibles, not just a string of numbers",
 })
 ```
 
-    ## Test passed 🥇
+    ## Test passed 🎉
 
 ``` r
 test_that("Function can only use numerical dataset", {
@@ -178,7 +178,7 @@ test_that("Function can only use numerical dataset", {
 })
 ```
 
-    ## Test passed 😀
+    ## Test passed 🌈
 
 ``` r
 #I inputted a categorical variable 
