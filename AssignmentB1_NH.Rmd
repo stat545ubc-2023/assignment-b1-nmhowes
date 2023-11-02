@@ -81,8 +81,8 @@ easyplot(cancer_sample$radius_mean, cancer_sample$area_mean)
 ```
 
 ```{r}
-easyplot(palmerpenguins::penguins$bill_length_mm,palmerpenguins::penguins$bill_depth_mm)
-#I want to look at the relationship between penguin bill length and penguin bill depth using the palmer penguins dataset, I am using the easyplot function to quickly see if there is a pattern between these variables. There doesn't seem to be a clear pattern between these variables. 
+easyplot(palmerpenguins::penguins$bill_length_mm,palmerpenguins::penguins$flipper_length_mm)
+#I want to look at the relationship between penguin bill length and penguin flipper length using the palmer penguins dataset, I am using the easyplot function to quickly see if there is a pattern between these variables. There is a slight pattern seen resulting in a positive correlation between bill and flipper length.  
 
 ```
 

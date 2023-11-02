@@ -133,7 +133,7 @@ easyplot(cancer_sample$radius_mean, cancer_sample$area_mean)
 ```
 
 ``` r
-easyplot(palmerpenguins::penguins$bill_length_mm,palmerpenguins::penguins$bill_depth_mm)
+easyplot(palmerpenguins::penguins$bill_length_mm,palmerpenguins::penguins$flipper_length_mm)
 ```
 
     ## Warning: Removed 2 rows containing missing values (`geom_point()`).
@@ -141,7 +141,7 @@ easyplot(palmerpenguins::penguins$bill_length_mm,palmerpenguins::penguins$bill_d
 ![](AssignmentB1_NH_files/figure-gfm/unnamed-chunk-6-1.png)<!-- -->
 
 ``` r
-#I want to look at the relationship between penguin bill length and penguin bill depth using the palmer penguins dataset, I am using the easyplot function to quickly see if there is a pattern between these variables. There doesn't seem to be a clear pattern between these variables. 
+#I want to look at the relationship between penguin bill length and penguin flipper length using the palmer penguins dataset, I am using the easyplot function to quickly see if there is a pattern between these variables. There is a slight pattern seen resulting in a positive correlation between bill and flipper length.  
 ```
 
 ``` r
@@ -162,7 +162,7 @@ test_that("Function uses the correct given dataset", {
 }) 
 ```
 
-    ## Test passed 🥳
+    ## Test passed 🌈
 
 ``` r
 test_that("Function needs a dataset and varibles, not just a string of numbers", {
@@ -170,7 +170,7 @@ test_that("Function needs a dataset and varibles, not just a string of numbers",
 })
 ```
 
-    ## Test passed 🎉
+    ## Test passed 🎊
 
 ``` r
 test_that("Function can only use numerical dataset", {
@@ -178,7 +178,7 @@ test_that("Function can only use numerical dataset", {
 })
 ```
 
-    ## Test passed 🌈
+    ## Test passed 🥳
 
 ``` r
 #I inputted a categorical variable 
